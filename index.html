@@ -14,17 +14,13 @@
       --bg: #f7f1e8;
       --text: #342619;
       --muted: #9a7349;
-      --line: #c7aa84;
       --button-light: #d3b58d;
       --button-mid: #b99368;
       --button-dark: #87623d;
       --white: #fffaf2;
     }
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     html, body {
       margin: 0;
@@ -39,8 +35,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background:
-        radial-gradient(circle at 50% 20%, rgba(255,255,255,.98), rgba(247,241,232,.98) 56%, #f1e5d4 100%);
+      background: radial-gradient(circle at 50% 20%, rgba(255,255,255,.98), rgba(247,241,232,.98) 56%, #f1e5d4 100%);
     }
 
     .screen {
@@ -70,7 +65,6 @@
       font-size: 14px;
       letter-spacing: 8px;
       color: var(--muted);
-      font-weight: 400;
     }
 
     .instruction {
@@ -81,7 +75,6 @@
       font-size: 17px;
       line-height: 1.75;
       letter-spacing: 6px;
-      font-weight: 400;
     }
 
     .button-shell {
@@ -102,15 +95,6 @@
         0 24px 42px rgba(70, 43, 18, .28),
         inset 0 7px 12px rgba(255,255,255,.38),
         inset 0 -11px 18px rgba(68,41,17,.24);
-    }
-
-    .button-shell::after {
-      content: "";
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      border: 1px solid rgba(68,41,17,.22);
-      pointer-events: none;
     }
 
     .gate-button {
@@ -137,9 +121,7 @@
       filter: brightness(.96);
     }
 
-    .gate-button:disabled {
-      cursor: not-allowed;
-    }
+    .gate-button:disabled { cursor: not-allowed; }
 
     .label {
       display: block;
@@ -173,7 +155,6 @@
       font-size: 18px;
       letter-spacing: 4px;
       margin-top: 12px;
-      font-weight: 400;
     }
 
     .footer {
@@ -197,45 +178,14 @@
     }
 
     @media (max-height: 760px) {
-      .screen {
-        padding-top: 34px;
-        padding-bottom: 22px;
-      }
-
-      .brand {
-        font-size: 44px;
-        letter-spacing: 9px;
-      }
-
-      .location {
-        margin-top: 20px;
-        font-size: 12px;
-      }
-
-      .instruction {
-        margin-top: 38px;
-        margin-bottom: 30px;
-        font-size: 14px;
-        min-height: 50px;
-      }
-
-      .button-shell {
-        width: 238px;
-        height: 238px;
-      }
-
-      .label {
-        font-size: 40px;
-      }
-
-      .count {
-        font-size: 72px;
-      }
-
-      .footer {
-        margin-top: 42px;
-        font-size: 10px;
-      }
+      .screen { padding-top: 34px; padding-bottom: 22px; }
+      .brand { font-size: 44px; letter-spacing: 9px; }
+      .location { margin-top: 20px; font-size: 12px; }
+      .instruction { margin-top: 38px; margin-bottom: 30px; font-size: 14px; min-height: 50px; }
+      .button-shell { width: 238px; height: 238px; }
+      .label { font-size: 40px; }
+      .count { font-size: 72px; }
+      .footer { margin-top: 42px; font-size: 10px; }
     }
   </style>
 </head>
@@ -282,48 +232,63 @@
     const instruction = document.getElementById("instruction");
 
     let running = false;
-    let timer = null;
-    let closePulseSent = false;
+    let countdownInterval = null;
+    let closeTimeout = null;
 
     button.addEventListener("click", async () => {
       if (running) return;
 
       running = true;
-      closePulseSent = false;
       button.disabled = true;
       button.classList.add("working");
 
       if (navigator.vibrate) navigator.vibrate(60);
 
-      sendPulse();
-      startCountdown();
+      const opened = await sendPulse();
+
+      if (!opened) {
+        showError();
+        return;
+      }
+
+      startCycle();
     });
 
-    function startCountdown() {
-      let time = 60;
-      updateCountdown(time);
+    function startCycle() {
+      const startTime = Date.now();
+      const totalDuration = 60000;
+      const closeDelay = 40000;
 
-      timer = setInterval(() => {
-        time--;
+      updateCountdown(60);
 
-        if (time === 20 && !closePulseSent) {
-          closePulseSent = true;
-          sendPulse();
-          if (navigator.vibrate) navigator.vibrate(40);
+      closeTimeout = setTimeout(async () => {
+        updateCountdown(20);
+
+        if (navigator.vibrate) navigator.vibrate(40);
+
+        const closed = await sendPulse();
+
+        if (!closed) {
+          showError();
         }
+      }, closeDelay);
 
-        updateCountdown(time);
+      countdownInterval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const remaining = Math.max(0, Math.ceil((totalDuration - elapsed) / 1000));
 
-        if (time <= 0) {
-          clearInterval(timer);
-          timer = null;
+        updateCountdown(remaining);
+
+        if (remaining <= 0) {
+          clearAllTimers();
           setTimeout(resetButton, 900);
         }
-      }, 1000);
+      }, 250);
     }
 
     function updateCountdown(time) {
       const state = time > 20 ? "ABRIENDO" : "CERRANDO";
+
       instruction.innerHTML = `${state}<br>PORTÓN`;
 
       content.innerHTML = `
@@ -342,17 +307,14 @@
 
         const data = await response.json();
 
-        if (!data.ok || data.result?.success === false) {
-          showError();
-        }
+        return data.ok && data.result?.success !== false;
       } catch (error) {
-        showError();
+        return false;
       }
     }
 
     function showError() {
-      if (timer) clearInterval(timer);
-      timer = null;
+      clearAllTimers();
 
       instruction.innerHTML = "INTENTA DE NUEVO<br>EN UN MOMENTO";
       content.innerHTML = `<span class="label">ERROR</span>`;
@@ -360,13 +322,21 @@
       setTimeout(resetButton, 4500);
     }
 
+    function clearAllTimers() {
+      if (countdownInterval) clearInterval(countdownInterval);
+      if (closeTimeout) clearTimeout(closeTimeout);
+      countdownInterval = null;
+      closeTimeout = null;
+    }
+
     function resetButton() {
+      clearAllTimers();
+
       instruction.innerHTML = "PRESIONA CUANDO ESTÉS<br>FRENTE AL PORTÓN";
       content.innerHTML = "ABRIR<br>PORTÓN";
       button.disabled = false;
       button.classList.remove("working");
       running = false;
-      closePulseSent = false;
     }
   </script>
 </body>
