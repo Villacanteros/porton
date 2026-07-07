@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acceso Vehicular</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f2f2f2;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+background:white;
+padding:40px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.15);
+text-align:center;
+width:320px;
+}
+
+h1{
+margin-bottom:30px;
+}
+
+button{
+width:100%;
+padding:20px;
+font-size:24px;
+border:none;
+border-radius:15px;
+background:#18a34a;
+color:white;
+cursor:pointer;
+}
+
+button:disabled{
+background:gray;
+}
+
+#timer{
+font-size:60px;
+margin:25px 0;
+font-weight:bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🚗 Acceso Vehicular</h1>
+
+<div id="timer">30</div>
+
+<button id="btn">ABRIR PORTÓN</button>
+
+</div>
+
+<script>
+
+const boton=document.getElementById("btn");
+const timer=document.getElementById("timer");
+
+boton.onclick=async()=>{
+
+// Aquí irá la llamada a Tuya
+
+boton.disabled=true;
+
+let t=30;
+
+timer.innerHTML=t;
+
+let intervalo=setInterval(()=>{
+
+t--;
+
+timer.innerHTML=t;
+
+if(t<=0){
+
+clearInterval(intervalo);
+
+timer.innerHTML="30";
+
+boton.disabled=false;
+
+}
+
+},1000);
+
+};
+
+</script>
+
+</body>
+</html>
