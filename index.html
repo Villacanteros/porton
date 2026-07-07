@@ -15,13 +15,16 @@
       --text: #342619;
       --muted: #9a7349;
       --line: #c7aa84;
-      --button-light: #d0b28a;
-      --button-mid: #b79268;
-      --button-dark: #8a653f;
+      --button-light: #d3b58d;
+      --button-mid: #b99368;
+      --button-dark: #87623d;
       --white: #fffaf2;
     }
 
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
     html, body {
       margin: 0;
@@ -37,7 +40,7 @@
       justify-content: center;
       align-items: center;
       background:
-        radial-gradient(circle at 50% 22%, rgba(255,255,255,.96), rgba(247,241,232,.98) 55%, #f1e5d4 100%);
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,.98), rgba(247,241,232,.98) 56%, #f1e5d4 100%);
     }
 
     .screen {
@@ -45,7 +48,7 @@
       max-width: 430px;
       min-height: 100vh;
       min-height: 100dvh;
-      padding: 64px 28px 32px;
+      padding: 58px 28px 30px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -62,7 +65,7 @@
     }
 
     .location {
-      margin-top: 28px;
+      margin-top: 26px;
       font-family: "Montserrat", sans-serif;
       font-size: 14px;
       letter-spacing: 8px;
@@ -70,45 +73,23 @@
       font-weight: 400;
     }
 
-    .divider {
-      margin: 40px 0 46px;
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      color: var(--muted);
-    }
-
-    .divider::before,
-    .divider::after {
-      content: "";
-      width: 82px;
-      height: 1px;
-      background: var(--line);
-      opacity: .9;
-    }
-
-    .daisy {
-      width: 22px;
-      height: 22px;
-      display: inline-block;
-    }
-
     .instruction {
-      font-family: "Montserrat", sans-serif;
-      font-size: 18px;
-      line-height: 1.75;
-      letter-spacing: 7px;
-      font-weight: 400;
-      margin-bottom: 44px;
+      margin-top: 56px;
+      margin-bottom: 38px;
       min-height: 64px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 17px;
+      line-height: 1.75;
+      letter-spacing: 6px;
+      font-weight: 400;
     }
 
     .button-shell {
       position: relative;
-      width: 274px;
-      height: 274px;
-      margin-bottom: auto;
+      width: 278px;
+      height: 278px;
       border-radius: 50%;
+      margin-bottom: auto;
     }
 
     .button-shell::before {
@@ -116,7 +97,7 @@
       position: absolute;
       inset: -15px;
       border-radius: 50%;
-      background: linear-gradient(145deg, #dcc39d, #a9845e);
+      background: linear-gradient(145deg, #dec49d, #a8835d);
       box-shadow:
         0 24px 42px rgba(70, 43, 18, .28),
         inset 0 7px 12px rgba(255,255,255,.38),
@@ -139,10 +120,10 @@
       border-radius: 50%;
       border: none;
       background:
-        radial-gradient(circle at 42% 32%, rgba(255,255,255,.12), transparent 34%),
+        radial-gradient(circle at 42% 32%, rgba(255,255,255,.14), transparent 34%),
         linear-gradient(145deg, var(--button-light), var(--button-mid) 56%, var(--button-dark));
       color: var(--white);
-      font-family: "Montserrat", sans-serif;
+      font-family: "Cormorant Garamond", serif;
       cursor: pointer;
       box-shadow:
         inset 0 8px 16px rgba(255,255,255,.22),
@@ -162,15 +143,16 @@
 
     .label {
       display: block;
-      font-size: 29px;
-      line-height: 1.35;
-      letter-spacing: 6px;
-      font-weight: 500;
+      font-size: 48px;
+      line-height: 1.05;
+      letter-spacing: 4px;
+      font-weight: 400;
     }
 
     .state {
       display: block;
-      font-size: 20px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 18px;
       letter-spacing: 5px;
       margin-bottom: 10px;
       font-weight: 500;
@@ -178,6 +160,7 @@
 
     .count {
       display: block;
+      font-family: "Montserrat", sans-serif;
       font-size: 86px;
       letter-spacing: 2px;
       line-height: .9;
@@ -186,6 +169,7 @@
 
     .seconds {
       display: block;
+      font-family: "Montserrat", sans-serif;
       font-size: 18px;
       letter-spacing: 4px;
       margin-top: 12px;
@@ -193,7 +177,7 @@
     }
 
     .footer {
-      margin-top: 76px;
+      margin-top: 66px;
       font-family: "Montserrat", sans-serif;
       font-size: 12px;
       letter-spacing: 5px;
@@ -206,16 +190,52 @@
       color: var(--muted);
     }
 
+    .daisy {
+      width: 22px;
+      height: 22px;
+      display: inline-block;
+    }
+
     @media (max-height: 760px) {
-      .screen { padding-top: 38px; padding-bottom: 24px; }
-      .brand { font-size: 44px; letter-spacing: 9px; }
-      .location { margin-top: 22px; font-size: 12px; }
-      .divider { margin: 28px 0 30px; }
-      .instruction { font-size: 14px; margin-bottom: 30px; min-height: 50px; }
-      .button-shell { width: 236px; height: 236px; }
-      .label { font-size: 24px; }
-      .count { font-size: 72px; }
-      .footer { margin-top: 42px; font-size: 10px; }
+      .screen {
+        padding-top: 34px;
+        padding-bottom: 22px;
+      }
+
+      .brand {
+        font-size: 44px;
+        letter-spacing: 9px;
+      }
+
+      .location {
+        margin-top: 20px;
+        font-size: 12px;
+      }
+
+      .instruction {
+        margin-top: 38px;
+        margin-bottom: 30px;
+        font-size: 14px;
+        min-height: 50px;
+      }
+
+      .button-shell {
+        width: 238px;
+        height: 238px;
+      }
+
+      .label {
+        font-size: 40px;
+      }
+
+      .count {
+        font-size: 72px;
+      }
+
+      .footer {
+        margin-top: 42px;
+        font-size: 10px;
+      }
     }
   </style>
 </head>
@@ -224,22 +244,6 @@
   <main class="screen">
     <h1 class="brand">CASA<br>MARGARITA</h1>
     <div class="location">JALISCO · MÉXICO</div>
-
-    <div class="divider">
-      <svg class="daisy" viewBox="0 0 64 64" aria-hidden="true">
-        <g fill="none" stroke="currentColor" stroke-width="3">
-          <ellipse cx="32" cy="12" rx="6" ry="11"/>
-          <ellipse cx="32" cy="52" rx="6" ry="11"/>
-          <ellipse cx="12" cy="32" rx="11" ry="6"/>
-          <ellipse cx="52" cy="32" rx="11" ry="6"/>
-          <ellipse cx="18" cy="18" rx="6" ry="11" transform="rotate(-45 18 18)"/>
-          <ellipse cx="46" cy="46" rx="6" ry="11" transform="rotate(-45 46 46)"/>
-          <ellipse cx="46" cy="18" rx="6" ry="11" transform="rotate(45 46 18)"/>
-          <ellipse cx="18" cy="46" rx="6" ry="11" transform="rotate(45 18 46)"/>
-          <circle cx="32" cy="32" r="6"/>
-        </g>
-      </svg>
-    </div>
 
     <div id="instruction" class="instruction">
       PRESIONA CUANDO ESTÉS<br>FRENTE AL PORTÓN
@@ -279,36 +283,35 @@
 
     let running = false;
     let timer = null;
+    let closePulseSent = false;
 
     button.addEventListener("click", async () => {
       if (running) return;
 
       running = true;
+      closePulseSent = false;
       button.disabled = true;
       button.classList.add("working");
 
       if (navigator.vibrate) navigator.vibrate(60);
 
+      sendPulse();
       startCountdown();
-
-      try {
-        const response = await fetch(WORKER_URL, { method: "GET", cache: "no-store" });
-        const data = await response.json();
-
-        if (!data.ok || data.result?.success === false) {
-          showError();
-        }
-      } catch (error) {
-        showError();
-      }
     });
 
     function startCountdown() {
-      let time = 30;
+      let time = 60;
       updateCountdown(time);
 
       timer = setInterval(() => {
         time--;
+
+        if (time === 20 && !closePulseSent) {
+          closePulseSent = true;
+          sendPulse();
+          if (navigator.vibrate) navigator.vibrate(40);
+        }
+
         updateCountdown(time);
 
         if (time <= 0) {
@@ -330,6 +333,23 @@
       `;
     }
 
+    async function sendPulse() {
+      try {
+        const response = await fetch(WORKER_URL, {
+          method: "GET",
+          cache: "no-store"
+        });
+
+        const data = await response.json();
+
+        if (!data.ok || data.result?.success === false) {
+          showError();
+        }
+      } catch (error) {
+        showError();
+      }
+    }
+
     function showError() {
       if (timer) clearInterval(timer);
       timer = null;
@@ -346,6 +366,7 @@
       button.disabled = false;
       button.classList.remove("working");
       running = false;
+      closePulseSent = false;
     }
   </script>
 </body>
