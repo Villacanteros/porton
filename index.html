@@ -35,7 +35,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: radial-gradient(circle at 50% 20%, rgba(255,255,255,.98), rgba(247,241,232,.98) 56%, #f1e5d4 100%);
+      background: radial-gradient(circle at 50% 18%, rgba(255,255,255,.98), rgba(247,241,232,.98) 56%, #f1e5d4 100%);
     }
 
     .screen {
@@ -43,9 +43,10 @@
       max-width: 430px;
       min-height: 100vh;
       min-height: 100dvh;
-      padding: 48px 28px 30px;
+      padding: 34px 28px;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       align-items: center;
       text-align: center;
     }
@@ -60,7 +61,7 @@
     }
 
     .location {
-      margin-top: 24px;
+      margin-top: 20px;
       font-family: "Montserrat", sans-serif;
       font-size: 14px;
       letter-spacing: 8px;
@@ -68,8 +69,8 @@
     }
 
     .instruction {
-      margin-top: 48px;
-      margin-bottom: 30px;
+      margin-top: 42px;
+      margin-bottom: 22px;
       min-height: 58px;
       font-family: "Montserrat", sans-serif;
       font-size: 16px;
@@ -79,7 +80,7 @@
 
     .pin-display {
       height: 24px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       display: flex;
       gap: 14px;
       justify-content: center;
@@ -103,7 +104,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
-      margin-bottom: auto;
+      margin-bottom: 0;
     }
 
     .key {
@@ -145,7 +146,6 @@
       width: 278px;
       height: 278px;
       border-radius: 50%;
-      margin-bottom: auto;
     }
 
     .button-shell::before {
@@ -204,7 +204,7 @@
     }
 
     .footer {
-      margin-top: 58px;
+      margin-top: 42px;
       font-family: "Montserrat", sans-serif;
       font-size: 12px;
       letter-spacing: 5px;
@@ -213,7 +213,7 @@
     }
 
     .footer-daisy {
-      margin-top: 16px;
+      margin-top: 14px;
       color: var(--muted);
     }
 
@@ -232,15 +232,17 @@
     .shake { animation: shake .25s ease; }
 
     @media (max-height: 760px) {
-      .screen { padding-top: 30px; padding-bottom: 20px; }
+      .screen { padding: 26px 28px; }
       .brand { font-size: 42px; letter-spacing: 8px; }
-      .location { margin-top: 18px; font-size: 12px; }
-      .instruction { margin-top: 32px; margin-bottom: 22px; font-size: 13px; min-height: 48px; }
+      .location { margin-top: 16px; font-size: 12px; }
+      .instruction { margin-top: 30px; margin-bottom: 18px; font-size: 13px; min-height: 48px; }
+      .pin-display { margin-bottom: 18px; }
       .keypad { width: 250px; gap: 11px; }
       .key { height: 62px; font-size: 34px; border-radius: 15px; }
       .button-shell { width: 238px; height: 238px; }
       .count { font-size: 72px; }
-      .footer { margin-top: 36px; font-size: 10px; }
+      .footer { margin-top: 30px; font-size: 10px; }
+      .footer-daisy { margin-top: 10px; }
     }
   </style>
 </head>
@@ -306,7 +308,7 @@
   </main>
 
   <script>
-    const ACCESS_CODE = "1455";
+    const ACCESS_CODE = "1402";
     const WORKER_URL = "https://porton.aldo-capibara.workers.dev/press?token=casa-margarita-2026";
 
     const instruction = document.getElementById("instruction");
@@ -327,12 +329,10 @@
 
       if (running) return;
 
-      if (key) {
-        if (pin.length < 4) {
-          pin += key;
-          updateDots();
-          if (navigator.vibrate) navigator.vibrate(18);
-        }
+      if (key && pin.length < 4) {
+        pin += key;
+        updateDots();
+        if (navigator.vibrate) navigator.vibrate(18);
       }
 
       if (action === "clear") {
@@ -398,6 +398,7 @@
 
       closeTimeout = setTimeout(async () => {
         updateCountdown(20);
+
         if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
 
         const closed = await sendPulse();
@@ -422,6 +423,7 @@
 
     function updateCountdown(time) {
       const state = time > 20 ? "ABRIENDO" : "CERRANDO";
+
       instruction.innerHTML = `${state}<br>PORTÓN`;
 
       content.innerHTML = `
@@ -447,8 +449,10 @@
 
     function showError() {
       clearAllTimers();
+
       instruction.innerHTML = "INTENTA DE NUEVO<br>EN UN MOMENTO";
       content.innerHTML = `<span class="state">ERROR</span>`;
+
       setTimeout(resetToKeypad, 4500);
     }
 
