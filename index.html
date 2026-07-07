@@ -43,7 +43,7 @@
       max-width: 430px;
       min-height: 100vh;
       min-height: 100dvh;
-      padding: 58px 28px 30px;
+      padding: 48px 28px 30px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -60,7 +60,7 @@
     }
 
     .location {
-      margin-top: 26px;
+      margin-top: 24px;
       font-family: "Montserrat", sans-serif;
       font-size: 14px;
       letter-spacing: 8px;
@@ -68,16 +68,79 @@
     }
 
     .instruction {
-      margin-top: 56px;
-      margin-bottom: 38px;
-      min-height: 64px;
+      margin-top: 48px;
+      margin-bottom: 30px;
+      min-height: 58px;
       font-family: "Montserrat", sans-serif;
-      font-size: 17px;
+      font-size: 16px;
       line-height: 1.75;
       letter-spacing: 6px;
     }
 
+    .pin-display {
+      height: 24px;
+      margin-bottom: 28px;
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 1px solid var(--muted);
+      opacity: .75;
+    }
+
+    .dot.filled {
+      background: var(--muted);
+    }
+
+    .keypad {
+      width: 284px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: auto;
+    }
+
+    .key {
+      height: 74px;
+      border: none;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #d8bd96, #a9845e);
+      color: var(--white);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 40px;
+      letter-spacing: 2px;
+      box-shadow:
+        0 10px 20px rgba(70, 43, 18, .18),
+        inset 0 5px 10px rgba(255,255,255,.22),
+        inset 0 -8px 14px rgba(55,33,14,.22);
+      cursor: pointer;
+      transition: transform .12s ease, filter .12s ease;
+    }
+
+    .key:active {
+      transform: translateY(4px) scale(.98);
+      filter: brightness(.95);
+    }
+
+    .key.enter {
+      font-family: "Montserrat", sans-serif;
+      font-size: 24px;
+      letter-spacing: 3px;
+    }
+
+    .key.clear {
+      font-family: "Montserrat", sans-serif;
+      font-size: 26px;
+    }
+
     .button-shell {
+      display: none;
       position: relative;
       width: 278px;
       height: 278px;
@@ -108,27 +171,10 @@
         linear-gradient(145deg, var(--button-light), var(--button-mid) 56%, var(--button-dark));
       color: var(--white);
       font-family: "Cormorant Garamond", serif;
-      cursor: pointer;
       box-shadow:
         inset 0 8px 16px rgba(255,255,255,.22),
         inset 0 -13px 24px rgba(55,33,14,.28);
-      transition: transform .16s ease, filter .16s ease;
-    }
-
-    .gate-button:active,
-    .gate-button.working {
       transform: translateY(7px) scale(.985);
-      filter: brightness(.96);
-    }
-
-    .gate-button:disabled { cursor: not-allowed; }
-
-    .label {
-      display: block;
-      font-size: 48px;
-      line-height: 1.05;
-      letter-spacing: 4px;
-      font-weight: 400;
     }
 
     .state {
@@ -158,7 +204,7 @@
     }
 
     .footer {
-      margin-top: 66px;
+      margin-top: 58px;
       font-family: "Montserrat", sans-serif;
       font-size: 12px;
       letter-spacing: 5px;
@@ -177,15 +223,24 @@
       display: inline-block;
     }
 
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-7px); }
+      75% { transform: translateX(7px); }
+    }
+
+    .shake { animation: shake .25s ease; }
+
     @media (max-height: 760px) {
-      .screen { padding-top: 34px; padding-bottom: 22px; }
-      .brand { font-size: 44px; letter-spacing: 9px; }
-      .location { margin-top: 20px; font-size: 12px; }
-      .instruction { margin-top: 38px; margin-bottom: 30px; font-size: 14px; min-height: 50px; }
+      .screen { padding-top: 30px; padding-bottom: 20px; }
+      .brand { font-size: 42px; letter-spacing: 8px; }
+      .location { margin-top: 18px; font-size: 12px; }
+      .instruction { margin-top: 32px; margin-bottom: 22px; font-size: 13px; min-height: 48px; }
+      .keypad { width: 250px; gap: 11px; }
+      .key { height: 62px; font-size: 34px; border-radius: 15px; }
       .button-shell { width: 238px; height: 238px; }
-      .label { font-size: 40px; }
       .count { font-size: 72px; }
-      .footer { margin-top: 42px; font-size: 10px; }
+      .footer { margin-top: 36px; font-size: 10px; }
     }
   </style>
 </head>
@@ -196,12 +251,38 @@
     <div class="location">JALISCO · MÉXICO</div>
 
     <div id="instruction" class="instruction">
-      PRESIONA CUANDO ESTÉS<br>FRENTE AL PORTÓN
+      INGRESA TU CÓDIGO<br>DE ACCESO
     </div>
 
-    <div class="button-shell">
-      <button id="gateButton" class="gate-button" aria-label="Abrir portón">
-        <span id="buttonContent" class="label">ABRIR<br>PORTÓN</span>
+    <div id="pinDisplay" class="pin-display">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <div id="keypad" class="keypad">
+      <button class="key" data-key="1">1</button>
+      <button class="key" data-key="2">2</button>
+      <button class="key" data-key="3">3</button>
+      <button class="key" data-key="4">4</button>
+      <button class="key" data-key="5">5</button>
+      <button class="key" data-key="6">6</button>
+      <button class="key" data-key="7">7</button>
+      <button class="key" data-key="8">8</button>
+      <button class="key" data-key="9">9</button>
+      <button class="key clear" data-action="clear">⌫</button>
+      <button class="key" data-key="0">0</button>
+      <button class="key enter" data-action="enter">↵</button>
+    </div>
+
+    <div id="buttonShell" class="button-shell">
+      <button id="gateButton" class="gate-button" disabled>
+        <span id="buttonContent">
+          <span class="state">ABRIENDO</span>
+          <span class="count">60</span>
+          <span class="seconds">SEG</span>
+        </span>
       </button>
     </div>
 
@@ -225,22 +306,76 @@
   </main>
 
   <script>
+    const ACCESS_CODE = "1455";
     const WORKER_URL = "https://porton.aldo-capibara.workers.dev/press?token=casa-margarita-2026";
 
-    const button = document.getElementById("gateButton");
-    const content = document.getElementById("buttonContent");
     const instruction = document.getElementById("instruction");
+    const keypad = document.getElementById("keypad");
+    const pinDisplay = document.getElementById("pinDisplay");
+    const dots = [...pinDisplay.querySelectorAll(".dot")];
+    const buttonShell = document.getElementById("buttonShell");
+    const content = document.getElementById("buttonContent");
 
+    let pin = "";
     let running = false;
     let countdownInterval = null;
     let closeTimeout = null;
 
-    button.addEventListener("click", async () => {
+    keypad.addEventListener("click", async (event) => {
+      const key = event.target.dataset.key;
+      const action = event.target.dataset.action;
+
       if (running) return;
 
+      if (key) {
+        if (pin.length < 4) {
+          pin += key;
+          updateDots();
+          if (navigator.vibrate) navigator.vibrate(18);
+        }
+      }
+
+      if (action === "clear") {
+        pin = pin.slice(0, -1);
+        updateDots();
+        if (navigator.vibrate) navigator.vibrate(20);
+      }
+
+      if (action === "enter") {
+        validatePin();
+      }
+    });
+
+    function updateDots() {
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("filled", index < pin.length);
+      });
+    }
+
+    async function validatePin() {
+      if (pin !== ACCESS_CODE) {
+        pin = "";
+        updateDots();
+        keypad.classList.remove("shake");
+        void keypad.offsetWidth;
+        keypad.classList.add("shake");
+        instruction.innerHTML = "CÓDIGO INCORRECTO<br>INTENTA DE NUEVO";
+        if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
+
+        setTimeout(() => {
+          instruction.innerHTML = "INGRESA TU CÓDIGO<br>DE ACCESO";
+        }, 1500);
+
+        return;
+      }
+
       running = true;
-      button.disabled = true;
-      button.classList.add("working");
+      pin = "";
+      updateDots();
+
+      keypad.style.display = "none";
+      pinDisplay.style.display = "none";
+      buttonShell.style.display = "block";
 
       if (navigator.vibrate) navigator.vibrate(60);
 
@@ -252,7 +387,7 @@
       }
 
       startCycle();
-    });
+    }
 
     function startCycle() {
       const startTime = Date.now();
@@ -263,8 +398,7 @@
 
       closeTimeout = setTimeout(async () => {
         updateCountdown(20);
-
-        if (navigator.vibrate) navigator.vibrate(40);
+        if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
 
         const closed = await sendPulse();
 
@@ -281,14 +415,13 @@
 
         if (remaining <= 0) {
           clearAllTimers();
-          setTimeout(resetButton, 900);
+          setTimeout(resetToKeypad, 900);
         }
       }, 250);
     }
 
     function updateCountdown(time) {
       const state = time > 20 ? "ABRIENDO" : "CERRANDO";
-
       instruction.innerHTML = `${state}<br>PORTÓN`;
 
       content.innerHTML = `
@@ -306,20 +439,17 @@
         });
 
         const data = await response.json();
-
         return data.ok && data.result?.success !== false;
-      } catch (error) {
+      } catch {
         return false;
       }
     }
 
     function showError() {
       clearAllTimers();
-
       instruction.innerHTML = "INTENTA DE NUEVO<br>EN UN MOMENTO";
-      content.innerHTML = `<span class="label">ERROR</span>`;
-
-      setTimeout(resetButton, 4500);
+      content.innerHTML = `<span class="state">ERROR</span>`;
+      setTimeout(resetToKeypad, 4500);
     }
 
     function clearAllTimers() {
@@ -329,14 +459,17 @@
       closeTimeout = null;
     }
 
-    function resetButton() {
+    function resetToKeypad() {
       clearAllTimers();
 
-      instruction.innerHTML = "PRESIONA CUANDO ESTÉS<br>FRENTE AL PORTÓN";
-      content.innerHTML = "ABRIR<br>PORTÓN";
-      button.disabled = false;
-      button.classList.remove("working");
       running = false;
+      pin = "";
+      updateDots();
+
+      instruction.innerHTML = "INGRESA TU CÓDIGO<br>DE ACCESO";
+      keypad.style.display = "grid";
+      pinDisplay.style.display = "flex";
+      buttonShell.style.display = "none";
     }
   </script>
 </body>
