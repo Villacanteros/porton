@@ -11,40 +11,235 @@
 
   <style>
     :root {
-      --bg:#f7f1e8; --text:#342619; --muted:#9a7349;
-      --button-light:#d3b58d; --button-mid:#b99368; --button-dark:#87623d; --white:#fffaf2;
+      --bg: #f7f1e8;
+      --text: #342619;
+      --muted: #9a7349;
+      --button-light: #d3b58d;
+      --button-mid: #b99368;
+      --button-dark: #87623d;
+      --white: #fffaf2;
     }
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text)}
-    body{min-height:100vh;min-height:100dvh;display:flex;justify-content:center;align-items:center;background:radial-gradient(circle at 50% 18%,rgba(255,255,255,.98),rgba(247,241,232,.98) 56%,#f1e5d4 100%)}
-    .screen{width:100%;max-width:430px;min-height:100vh;min-height:100dvh;padding:34px 28px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
-    .brand{font-family:"Cormorant Garamond",serif;font-size:52px;line-height:.98;letter-spacing:10px;font-weight:400;margin:0}
-    .location{margin-top:20px;font-family:"Montserrat",sans-serif;font-size:14px;letter-spacing:8px;color:var(--muted)}
-    .instruction{margin-top:42px;margin-bottom:22px;min-height:58px;font-family:"Montserrat",sans-serif;font-size:16px;line-height:1.75;letter-spacing:6px}
-    .pin-display{height:24px;margin-bottom:24px;display:flex;gap:14px;justify-content:center;align-items:center}
-    .dot{width:11px;height:11px;border-radius:50%;border:1px solid var(--muted);opacity:.75}
-    .dot.filled{background:var(--muted)}
-    .keypad{width:284px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .key{height:74px;border:none;border-radius:18px;background:linear-gradient(145deg,#d8bd96,#a9845e);color:var(--white);font-family:"Cormorant Garamond",serif;font-size:40px;letter-spacing:2px;box-shadow:0 10px 20px rgba(70,43,18,.18),inset 0 5px 10px rgba(255,255,255,.22),inset 0 -8px 14px rgba(55,33,14,.22);cursor:pointer;transition:transform .12s ease,filter .12s ease}
-    .key:active{transform:translateY(4px) scale(.98);filter:brightness(.95)}
-    .key.enter{font-family:"Montserrat",sans-serif;font-size:24px;letter-spacing:3px}
-    .key.clear{font-family:"Montserrat",sans-serif;font-size:26px}
-    .button-shell{display:none;position:relative;width:278px;height:278px;border-radius:50%}
-    .button-shell::before{content:"";position:absolute;inset:-15px;border-radius:50%;background:linear-gradient(145deg,#dec49d,#a8835d);box-shadow:0 24px 42px rgba(70,43,18,.28),inset 0 7px 12px rgba(255,255,255,.38),inset 0 -11px 18px rgba(68,41,17,.24)}
-    .gate-button{position:relative;width:100%;height:100%;border-radius:50%;border:none;background:radial-gradient(circle at 42% 32%,rgba(255,255,255,.14),transparent 34%),linear-gradient(145deg,var(--button-light),var(--button-mid) 56%,var(--button-dark));color:var(--white);font-family:"Cormorant Garamond",serif;box-shadow:inset 0 8px 16px rgba(255,255,255,.22),inset 0 -13px 24px rgba(55,33,14,.28);transform:translateY(7px) scale(.985)}
-    .state{display:block;font-family:"Montserrat",sans-serif;font-size:18px;letter-spacing:5px;margin-bottom:10px;font-weight:500}
-    .count{display:block;font-family:"Montserrat",sans-serif;font-size:86px;letter-spacing:2px;line-height:.9;font-weight:300}
-    .seconds{display:block;font-family:"Montserrat",sans-serif;font-size:18px;letter-spacing:4px;margin-top:12px}
-    .footer{margin-top:42px;font-family:"Montserrat",sans-serif;font-size:12px;letter-spacing:5px;color:var(--muted);line-height:1.8}
-    .footer-daisy{margin-top:14px;color:var(--muted)}
-    .daisy{width:22px;height:22px;display:inline-block}
-    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-    .shake{animation:shake .25s ease}
-    @media(max-height:760px){
-      .screen{padding:26px 28px}.brand{font-size:42px;letter-spacing:8px}.location{margin-top:16px;font-size:12px}
-      .instruction{margin-top:30px;margin-bottom:18px;font-size:13px;min-height:48px}.pin-display{margin-bottom:18px}
-      .keypad{width:250px;gap:11px}.key{height:62px;font-size:34px;border-radius:15px}
-      .button-shell{width:238px;height:238px}.count{font-size:72px}.footer{margin-top:30px;font-size:10px}.footer-daisy{margin-top:10px}
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at 50% 18%, rgba(255,255,255,.98), rgba(247,241,232,.98) 56%, #f1e5d4 100%);
+    }
+
+    .screen {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 34px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .brand {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 52px;
+      line-height: .98;
+      letter-spacing: 10px;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    .location {
+      margin-top: 20px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
+      letter-spacing: 8px;
+      color: var(--muted);
+    }
+
+    .instruction {
+      margin-top: 42px;
+      margin-bottom: 22px;
+      min-height: 58px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      letter-spacing: 6px;
+    }
+
+    .pin-display {
+      height: 24px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 1px solid var(--muted);
+      opacity: .75;
+    }
+
+    .dot.filled { background: var(--muted); }
+
+    .keypad {
+      width: 284px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .key {
+      height: 74px;
+      border: none;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #d8bd96, #a9845e);
+      color: var(--white);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 40px;
+      letter-spacing: 2px;
+      box-shadow:
+        0 10px 20px rgba(70,43,18,.18),
+        inset 0 5px 10px rgba(255,255,255,.22),
+        inset 0 -8px 14px rgba(55,33,14,.22);
+      cursor: pointer;
+      transition: transform .12s ease, filter .12s ease;
+    }
+
+    .key:active {
+      transform: translateY(4px) scale(.98);
+      filter: brightness(.95);
+    }
+
+    .key.enter {
+      font-family: "Montserrat", sans-serif;
+      font-size: 24px;
+      letter-spacing: 3px;
+    }
+
+    .key.clear {
+      font-family: "Montserrat", sans-serif;
+      font-size: 26px;
+    }
+
+    .button-shell {
+      display: none;
+      position: relative;
+      width: 278px;
+      height: 278px;
+      border-radius: 50%;
+    }
+
+    .button-shell::before {
+      content: "";
+      position: absolute;
+      inset: -15px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #dec49d, #a8835d);
+      box-shadow:
+        0 24px 42px rgba(70,43,18,.28),
+        inset 0 7px 12px rgba(255,255,255,.38),
+        inset 0 -11px 18px rgba(68,41,17,.24);
+    }
+
+    .gate-button {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: none;
+      background:
+        radial-gradient(circle at 42% 32%, rgba(255,255,255,.14), transparent 34%),
+        linear-gradient(145deg, var(--button-light), var(--button-mid) 56%, var(--button-dark));
+      color: var(--white);
+      font-family: "Cormorant Garamond", serif;
+      box-shadow:
+        inset 0 8px 16px rgba(255,255,255,.22),
+        inset 0 -13px 24px rgba(55,33,14,.28);
+      transform: translateY(7px) scale(.985);
+    }
+
+    .state {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-size: 18px;
+      letter-spacing: 5px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .count {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-size: 86px;
+      letter-spacing: 2px;
+      line-height: .9;
+      font-weight: 300;
+    }
+
+    .seconds {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-size: 18px;
+      letter-spacing: 4px;
+      margin-top: 12px;
+    }
+
+    .footer {
+      margin-top: 42px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 12px;
+      letter-spacing: 5px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .footer-daisy {
+      margin-top: 14px;
+      color: var(--muted);
+    }
+
+    .daisy {
+      width: 22px;
+      height: 22px;
+      display: inline-block;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-7px); }
+      75% { transform: translateX(7px); }
+    }
+
+    .shake { animation: shake .25s ease; }
+
+    @media (max-height: 760px) {
+      .screen { padding: 26px 28px; }
+      .brand { font-size: 42px; letter-spacing: 8px; }
+      .location { margin-top: 16px; font-size: 12px; }
+      .instruction { margin-top: 30px; margin-bottom: 18px; font-size: 13px; min-height: 48px; }
+      .pin-display { margin-bottom: 18px; }
+      .keypad { width: 250px; gap: 11px; }
+      .key { height: 62px; font-size: 34px; border-radius: 15px; }
+      .button-shell { width: 238px; height: 238px; }
+      .count { font-size: 72px; }
+      .footer { margin-top: 30px; font-size: 10px; }
+      .footer-daisy { margin-top: 10px; }
     }
   </style>
 </head>
@@ -54,21 +249,34 @@
     <h1 class="brand">CASA<br>MARGARITA</h1>
     <div class="location">JALISCO · MÉXICO</div>
 
-    <div id="instruction" class="instruction">INGRESA TU CÓDIGO<br>DE ACCESO</div>
+    <div id="instruction" class="instruction">
+      INGRESA TU CÓDIGO<br>DE ACCESO
+    </div>
 
     <div id="pinDisplay" class="pin-display">
-      <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
     </div>
 
     <div id="keypad" class="keypad">
-      <button class="key" data-key="1">1</button><button class="key" data-key="2">2</button><button class="key" data-key="3">3</button>
-      <button class="key" data-key="4">4</button><button class="key" data-key="5">5</button><button class="key" data-key="6">6</button>
-      <button class="key" data-key="7">7</button><button class="key" data-key="8">8</button><button class="key" data-key="9">9</button>
-      <button class="key clear" data-action="clear">⌫</button><button class="key" data-key="0">0</button><button class="key enter" data-action="enter">↵</button>
+      <button class="key" type="button" data-key="1">1</button>
+      <button class="key" type="button" data-key="2">2</button>
+      <button class="key" type="button" data-key="3">3</button>
+      <button class="key" type="button" data-key="4">4</button>
+      <button class="key" type="button" data-key="5">5</button>
+      <button class="key" type="button" data-key="6">6</button>
+      <button class="key" type="button" data-key="7">7</button>
+      <button class="key" type="button" data-key="8">8</button>
+      <button class="key" type="button" data-key="9">9</button>
+      <button class="key clear" type="button" data-action="clear">⌫</button>
+      <button class="key" type="button" data-key="0">0</button>
+      <button class="key enter" type="button" data-action="enter">↵</button>
     </div>
 
     <div id="buttonShell" class="button-shell">
-      <button class="gate-button" disabled>
+      <button class="gate-button" type="button" disabled>
         <span id="buttonContent">
           <span class="state">ABRIENDO</span>
           <span class="count">60</span>
@@ -78,7 +286,752 @@
     </div>
 
     <div class="footer">GRACIAS POR ELEGIR CASA MARGARITA</div>
+
     <div class="footer-daisy">
       <svg class="daisy" viewBox="0 0 64 64" aria-hidden="true">
         <g fill="none" stroke="currentColor" stroke-width="3">
-          <ellipse cx="32" cy="12" rx="6" ry="11"/><ellipse cx="32" cy="52" rx="6" ry="
+          <ellipse cx="32" cy="12" rx="6" ry="11"/>
+          <ellipse cx="32" cy="52" rx="6" ry="11"/>
+          <ellipse cx="12" cy="32" rx="11" ry="6"/>
+          <ellipse cx="52" cy="32" rx="11" ry="6"/>
+          <ellipse cx="18" cy="18" rx="6" ry="11" transform="rotate(-45 18 18)"/>
+          <ellipse cx="46" cy="46" rx="6" ry="11" transform="rotate(-45 46 46)"/>
+          <ellipse cx="46" cy="18" rx="6" ry="11" transform="rotate(45 46 18)"/>
+          <ellipse cx="18" cy="46" rx="6" ry="11" transform="rotate(45 18 46)"/>
+          <circle cx="32" cy="32" r="6"/>
+        </g>
+      </svg>
+    </div>
+  </main>
+
+  <script>
+    const ACCESS_CODE = "1402";
+    const WORKER_URL = "https://porton.aldo-capibara.workers.dev/press?token=casa-margarita-2026";
+
+    const instruction = document.getElementById("instruction");
+    const keypad = document.getElementById("keypad");
+    const pinDisplay = document.getElementById("pinDisplay");
+    const dots = Array.from(pinDisplay.querySelectorAll(".dot"));
+    const buttonShell = document.getElementById("buttonShell");
+    const content = document.getElementById("buttonContent");
+
+    let pin = "";
+    let running = false;
+    let countdownInterval = null;
+    let closeTimeout = null;
+    let activeSession = null;
+
+    keypad.addEventListener("click", (event) => {
+      const pressedButton = event.target.closest("button");
+      if (!pressedButton || !keypad.contains(pressedButton)) return;
+      if (running) return;
+
+      const key = pressedButton.dataset.key;
+      const action = pressedButton.dataset.action;
+
+      if (key && pin.length < 4) {
+        pin += key;
+        updateDots();
+        if (navigator.vibrate) navigator.vibrate(18);
+      }
+
+      if (action === "clear") {
+        pin = pin.slice(0, -1);
+        updateDots();
+        if (navigator.vibrate) navigator.vibrate(20);
+      }
+
+      if (action === "enter") {
+        validatePin();
+      }
+    });
+
+    function updateDots() {
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("filled", index < pin.length);
+      });
+    }
+
+    async function validatePin() {
+      if (pin !== ACCESS_CODE) {
+        pin = "";
+        updateDots();
+        showKeypadMessage("CÓDIGO INCORRECTO<br>INTENTA DE NUEVO");
+        return;
+      }
+
+      running = true;
+      pin = "";
+      updateDots();
+
+      const started = await startGateCycle();
+
+      if (started === "busy") {
+        running = false;
+        showKeypadMessage("PORTÓN EN USO<br>ESPERA UN MOMENTO");
+        return;
+      }
+
+      if (!started) {
+        running = false;
+        showKeypadMessage("INTENTA DE NUEVO<br>EN UN MOMENTO");
+        return;
+      }
+
+      keypad.style.display = "none";
+      pinDisplay.style.display = "none";
+      buttonShell.style.display = "block";
+
+      if (navigator.vibrate) navigator.vibrate(60);
+
+      startCountdown();
+    }
+
+    async function startGateCycle() {
+      try {
+        const response = await fetch(WORKER_URL + "&action=start", {
+          method: "GET",
+          cache: "no-store"
+        });
+
+        const data = await response.json();
+
+        if (data.busy) return "busy";
+        if (!data.ok) return false;
+
+        activeSession = data.session;
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    async function closeGateCycle() {
+      if (!activeSession) return false;
+
+      try {
+        const response = await fetch(
+          WORKER_URL + "&action=close&session=" + encodeURIComponent(activeSession),
+          {
+            method: "GET",
+            cache: "no-store"
+          }
+        );
+
+        const data = await response.json();
+        return Boolean(data.ok);
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function startCountdown() {
+      const startTime = Date.now();
+      const totalDuration = 60000;
+      const closeDelay = 40000;
+
+      updateCountdown(60);
+
+      closeTimeout = setTimeout(async () => {
+        updateCountdown(20);
+
+        if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
+
+        const closed = await closeGateCycle();
+
+        if (!closed) {
+          showError();
+        }
+      }, closeDelay);
+
+      countdownInterval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const remaining = Math.max(0, Math.ceil((totalDuration - elapsed) / 1000));
+
+        updateCountdown(remaining);
+
+        if (remaining <= 0) {
+          clearAllTimers();
+          setTimeout(resetToKeypad, 900);
+        }
+      }, 250);
+    }
+
+    function updateCountdown(time) {
+      const state = time > 20 ? "ABRIENDO" : "CERRANDO";
+
+      instruction.innerHTML = `${state}<br>PORTÓN`;
+
+      content.innerHTML = `
+        <span class="state">${state}</span>
+        <span class="count">${String(time).padStart(2, "0")}</span>
+        <span class="seconds">SEG</span>
+      `;
+    }
+
+    function showKeypadMessage(message) {
+      instruction.innerHTML = message;
+
+      keypad.classList.remove("shake");
+      void keypad.offsetWidth;
+      keypad.classList.add("shake");
+
+      if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
+
+      setTimeout(() => {
+        instruction.innerHTML = "INGRESA TU CÓDIGO<br>DE ACCESO";
+      }, 1800);
+    }
+
+    function showError() {
+      clearAllTimers();
+
+      instruction.innerHTML = "INTENTA DE NUEVO<br>EN UN MOMENTO";
+      content.innerHTML = `<span class="state">ERROR</span>`;
+
+      setTimeout(resetToKeypad, 4500);
+    }
+
+    function clearAllTimers() {
+      if (countdownInterval) clearInterval(countdownInterval);
+      if (closeTimeout) clearTimeout(closeTimeout);
+
+      countdownInterval = null;
+      closeTimeout = null;
+    }
+
+    function resetToKeypad() {
+      clearAllTimers();
+
+      running = false;
+      pin = "";
+      activeSession = null;
+
+      updateDots();
+
+      instruction.innerHTML = "INGRESA TU CÓDIGO<br>DE ACCESO";
+      keypad.style.display = "grid";
+      pinDisplay.style.display = "flex";
+      buttonShell.style.display = "none";
+    }
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Casa Margarita</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f7f1e8;
+      --text: #342619;
+      --muted: #9a7349;
+      --button-light: #d3b58d;
+      --button-mid: #b99368;
+      --button-dark: #87623d;
+      --white: #fffaf2;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at 50% 18%, rgba(255,255,255,.98), rgba(247,241,232,.98) 56%, #f1e5d4 100%);
+    }
+
+    .screen {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 34px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .brand {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 52px;
+      line-height: .98;
+      letter-spacing: 10px;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    .location {
+      margin-top: 20px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
+      letter-spacing: 8px;
+      color: var(--muted);
+    }
+
+    .instruction {
+      margin-top: 42px;
+      margin-bottom: 22px;
+      min-height: 58px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      letter-spacing: 6px;
+    }
+
+    .pin-display {
+      height: 24px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 1px solid var(--muted);
+      opacity: .75;
+    }
+
+    .dot.filled { background: var(--muted); }
+
+    .keypad {
+      width: 284px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .key {
+      height: 74px;
+      border: none;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #d8bd96, #a9845e);
+      color: var(--white);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 40px;
+      letter-spacing: 2px;
+      box-shadow:
+        0 10px 20px rgba(70,43,18,.18),
+        inset 0 5px 10px rgba(255,255,255,.22),
+        inset 0 -8px 14px rgba(55,33,14,.22);
+      cursor: pointer;
+      transition: transform .12s ease, filter .12s ease;
+    }
+
+    .key:active {
+      transform: translateY(4px) scale(.98);
+      filter: brightness(.95);
+    }
+
+    .key.enter {
+      font-family: "Montserrat", sans-serif;
+      font-size: 24px;
+      letter-spacing: 3px;
+    }
+
+    .key.clear {
+      font-family: "Montserrat", sans-serif;
+      font-size: 26px;
+    }
+
+    .button-shell {
+      display: none;
+      position: relative;
+      width: 278px;
+      height: 278px;
+      border-radius: 50%;
+    }
+
+    .button-shell::before {
+      content: "";
+      position: absolute;
+      inset: -15px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #dec49d, #a8835d);
+      box-shadow:
+        0 24px 42px rgba(70,43,18,.28),
+        inset 0 7px 12px rgba(255,255,255,.38),
+        inset 0 -11px 18px rgba(68,41,17,.24);
+    }
+
+    .gate-button {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: none;
+      background:
+        radial-gradient(circle at 42% 32%, rgba(255,255,255,.14), transparent 34%),
+        linear-gradient(145deg, var(--button-light), var(--button-mid) 56%, var(--button-dark));
+      color: var(--white);
+      font-family: "Cormorant Garamond", serif;
+      box-shadow:
+        inset 0 8px 16px rgba(255,255,255,.22),
+        inset 0 -13px 24px rgba(55,33,14,.28);
+      transform: translateY(7px) scale(.985);
+    }
+
+    .state {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-size: 18px;
+      letter-spacing: 5px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .count {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-size: 86px;
+      letter-spacing: 2px;
+      line-height: .9;
+      font-weight: 300;
+    }
+
+    .seconds {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-size: 18px;
+      letter-spacing: 4px;
+      margin-top: 12px;
+    }
+
+    .footer {
+      margin-top: 42px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 12px;
+      letter-spacing: 5px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .footer-daisy {
+      margin-top: 14px;
+      color: var(--muted);
+    }
+
+    .daisy {
+      width: 22px;
+      height: 22px;
+      display: inline-block;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-7px); }
+      75% { transform: translateX(7px); }
+    }
+
+    .shake { animation: shake .25s ease; }
+
+    @media (max-height: 760px) {
+      .screen { padding: 26px 28px; }
+      .brand { font-size: 42px; letter-spacing: 8px; }
+      .location { margin-top: 16px; font-size: 12px; }
+      .instruction { margin-top: 30px; margin-bottom: 18px; font-size: 13px; min-height: 48px; }
+      .pin-display { margin-bottom: 18px; }
+      .keypad { width: 250px; gap: 11px; }
+      .key { height: 62px; font-size: 34px; border-radius: 15px; }
+      .button-shell { width: 238px; height: 238px; }
+      .count { font-size: 72px; }
+      .footer { margin-top: 30px; font-size: 10px; }
+      .footer-daisy { margin-top: 10px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="screen">
+    <h1 class="brand">CASA<br>MARGARITA</h1>
+    <div class="location">JALISCO · MÉXICO</div>
+
+    <div id="instruction" class="instruction">
+      INGRESA TU CÓDIGO<br>DE ACCESO
+    </div>
+
+    <div id="pinDisplay" class="pin-display">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <div id="keypad" class="keypad">
+      <button class="key" type="button" data-key="1">1</button>
+      <button class="key" type="button" data-key="2">2</button>
+      <button class="key" type="button" data-key="3">3</button>
+      <button class="key" type="button" data-key="4">4</button>
+      <button class="key" type="button" data-key="5">5</button>
+      <button class="key" type="button" data-key="6">6</button>
+      <button class="key" type="button" data-key="7">7</button>
+      <button class="key" type="button" data-key="8">8</button>
+      <button class="key" type="button" data-key="9">9</button>
+      <button class="key clear" type="button" data-action="clear">⌫</button>
+      <button class="key" type="button" data-key="0">0</button>
+      <button class="key enter" type="button" data-action="enter">↵</button>
+    </div>
+
+    <div id="buttonShell" class="button-shell">
+      <button class="gate-button" type="button" disabled>
+        <span id="buttonContent">
+          <span class="state">ABRIENDO</span>
+          <span class="count">60</span>
+          <span class="seconds">SEG</span>
+        </span>
+      </button>
+    </div>
+
+    <div class="footer">GRACIAS POR ELEGIR CASA MARGARITA</div>
+
+    <div class="footer-daisy">
+      <svg class="daisy" viewBox="0 0 64 64" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="3">
+          <ellipse cx="32" cy="12" rx="6" ry="11"/>
+          <ellipse cx="32" cy="52" rx="6" ry="11"/>
+          <ellipse cx="12" cy="32" rx="11" ry="6"/>
+          <ellipse cx="52" cy="32" rx="11" ry="6"/>
+          <ellipse cx="18" cy="18" rx="6" ry="11" transform="rotate(-45 18 18)"/>
+          <ellipse cx="46" cy="46" rx="6" ry="11" transform="rotate(-45 46 46)"/>
+          <ellipse cx="46" cy="18" rx="6" ry="11" transform="rotate(45 46 18)"/>
+          <ellipse cx="18" cy="46" rx="6" ry="11" transform="rotate(45 18 46)"/>
+          <circle cx="32" cy="32" r="6"/>
+        </g>
+      </svg>
+    </div>
+  </main>
+
+  <script>
+    const ACCESS_CODE = "1402";
+    const WORKER_URL = "https://porton.aldo-capibara.workers.dev/press?token=casa-margarita-2026";
+
+    const instruction = document.getElementById("instruction");
+    const keypad = document.getElementById("keypad");
+    const pinDisplay = document.getElementById("pinDisplay");
+    const dots = Array.from(pinDisplay.querySelectorAll(".dot"));
+    const buttonShell = document.getElementById("buttonShell");
+    const content = document.getElementById("buttonContent");
+
+    let pin = "";
+    let running = false;
+    let countdownInterval = null;
+    let closeTimeout = null;
+    let activeSession = null;
+
+    keypad.addEventListener("click", (event) => {
+      const pressedButton = event.target.closest("button");
+      if (!pressedButton || !keypad.contains(pressedButton)) return;
+      if (running) return;
+
+      const key = pressedButton.dataset.key;
+      const action = pressedButton.dataset.action;
+
+      if (key && pin.length < 4) {
+        pin += key;
+        updateDots();
+        if (navigator.vibrate) navigator.vibrate(18);
+      }
+
+      if (action === "clear") {
+        pin = pin.slice(0, -1);
+        updateDots();
+        if (navigator.vibrate) navigator.vibrate(20);
+      }
+
+      if (action === "enter") {
+        validatePin();
+      }
+    });
+
+    function updateDots() {
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("filled", index < pin.length);
+      });
+    }
+
+    async function validatePin() {
+      if (pin !== ACCESS_CODE) {
+        pin = "";
+        updateDots();
+        showKeypadMessage("CÓDIGO INCORRECTO<br>INTENTA DE NUEVO");
+        return;
+      }
+
+      running = true;
+      pin = "";
+      updateDots();
+
+      const started = await startGateCycle();
+
+      if (started === "busy") {
+        running = false;
+        showKeypadMessage("PORTÓN EN USO<br>ESPERA UN MOMENTO");
+        return;
+      }
+
+      if (!started) {
+        running = false;
+        showKeypadMessage("INTENTA DE NUEVO<br>EN UN MOMENTO");
+        return;
+      }
+
+      keypad.style.display = "none";
+      pinDisplay.style.display = "none";
+      buttonShell.style.display = "block";
+
+      if (navigator.vibrate) navigator.vibrate(60);
+
+      startCountdown();
+    }
+
+    async function startGateCycle() {
+      try {
+        const response = await fetch(WORKER_URL + "&action=start", {
+          method: "GET",
+          cache: "no-store"
+        });
+
+        const data = await response.json();
+
+        if (data.busy) return "busy";
+        if (!data.ok) return false;
+
+        activeSession = data.session;
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    async function closeGateCycle() {
+      if (!activeSession) return false;
+
+      try {
+        const response = await fetch(
+          WORKER_URL + "&action=close&session=" + encodeURIComponent(activeSession),
+          {
+            method: "GET",
+            cache: "no-store"
+          }
+        );
+
+        const data = await response.json();
+        return Boolean(data.ok);
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function startCountdown() {
+      const startTime = Date.now();
+      const totalDuration = 60000;
+      const closeDelay = 40000;
+
+      updateCountdown(60);
+
+      closeTimeout = setTimeout(async () => {
+        updateCountdown(20);
+
+        if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
+
+        const closed = await closeGateCycle();
+
+        if (!closed) {
+          showError();
+        }
+      }, closeDelay);
+
+      countdownInterval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const remaining = Math.max(0, Math.ceil((totalDuration - elapsed) / 1000));
+
+        updateCountdown(remaining);
+
+        if (remaining <= 0) {
+          clearAllTimers();
+          setTimeout(resetToKeypad, 900);
+        }
+      }, 250);
+    }
+
+    function updateCountdown(time) {
+      const state = time > 20 ? "ABRIENDO" : "CERRANDO";
+
+      instruction.innerHTML = `${state}<br>PORTÓN`;
+
+      content.innerHTML = `
+        <span class="state">${state}</span>
+        <span class="count">${String(time).padStart(2, "0")}</span>
+        <span class="seconds">SEG</span>
+      `;
+    }
+
+    function showKeypadMessage(message) {
+      instruction.innerHTML = message;
+
+      keypad.classList.remove("shake");
+      void keypad.offsetWidth;
+      keypad.classList.add("shake");
+
+      if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
+
+      setTimeout(() => {
+        instruction.innerHTML = "INGRESA TU CÓDIGO<br>DE ACCESO";
+      }, 1800);
+    }
+
+    function showError() {
+      clearAllTimers();
+
+      instruction.innerHTML = "INTENTA DE NUEVO<br>EN UN MOMENTO";
+      content.innerHTML = `<span class="state">ERROR</span>`;
+
+      setTimeout(resetToKeypad, 4500);
+    }
+
+    function clearAllTimers() {
+      if (countdownInterval) clearInterval(countdownInterval);
+      if (closeTimeout) clearTimeout(closeTimeout);
+
+      countdownInterval = null;
+      closeTimeout = null;
+    }
+
+    function resetToKeypad() {
+      clearAllTimers();
+
+      running = false;
+      pin = "";
+      activeSession = null;
+
+      updateDots();
+
+      instruction.innerHTML = "INGRESA TU CÓDIGO<br>DE ACCESO";
+      keypad.style.display = "grid";
+      pinDisplay.style.display = "flex";
+      buttonShell.style.display = "none";
+    }
+  </script>
+</body>
+</html>
